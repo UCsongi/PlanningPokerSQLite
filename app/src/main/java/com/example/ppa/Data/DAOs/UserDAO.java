@@ -10,7 +10,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 @Dao
-public interface UserDao {
+public interface UserDAO {
     @Query("SELECT * FROM user")
     List<User> getAll();
 
