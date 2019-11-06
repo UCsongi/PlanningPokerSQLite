@@ -1,4 +1,4 @@
-package com.example.ppa.Data;
+package com.example.ppa.Data.Entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
