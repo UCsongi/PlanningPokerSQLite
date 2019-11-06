@@ -1,8 +1,10 @@
-package com.example.ppa;
+package com.example.ppa.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.ppa.R;
 
 public class MainActivity extends AppCompatActivity {
 
