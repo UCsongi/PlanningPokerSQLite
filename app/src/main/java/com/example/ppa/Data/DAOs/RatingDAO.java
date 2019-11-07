@@ -1,7 +1,6 @@
 package com.example.ppa.Data.DAOs;
 
 import com.example.ppa.Data.Entities.Rating;
-import com.example.ppa.Data.Entities.User;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ public interface RatingDAO {
     List<Rating> getAll();
 
     @Query("SELECT * FROM rating INNER JOIN task ON rating.task_id = task.id WHERE task.id = :taskId")
-    List<User> getAllByTaskId(int taskId);
+    List<Rating> getAllByTaskId(int taskId);
 
     @Insert
     void insertAll(Rating... ratings);
