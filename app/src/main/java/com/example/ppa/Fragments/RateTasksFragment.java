@@ -5,29 +5,37 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.ppa.Data.DAOs.TaskDAO;
+import com.example.ppa.Adapters.TaskRaterAdapter;
 import com.example.ppa.Data.Entities.Task;
 import com.example.ppa.Data.PPADatabase;
+import com.example.ppa.Models.RatedTask;
 import com.example.ppa.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RateTasksFragment extends Fragment {
 
     private static final String USER_ID = "userid";
-
     private int userId;
+
     private List<Task> tasks;
+    private List<RatedTask> ratedTasks;
 
     private OnRateListener mListener;
 
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+
     public RateTasksFragment() {
-        // Required empty public constructor
     }
 
     public static RateTasksFragment newInstance(int userId) {
@@ -45,21 +53,30 @@ public class RateTasksFragment extends Fragment {
             userId = getArguments().getInt(USER_ID);
         }
 
-        TaskDAO taskDAO = PPADatabase.getInstance(getContext()).taskDAO();
-
-        tasks = taskDAO.getAll();
-        //TODO i am not sure if we get back null or something else when nothing exists
-        if (tasks == null){
-
+        ratedTasks = new ArrayList();
+        tasks = PPADatabase.getInstance(getContext()).taskDAO().getAll();
+        for (Task task :tasks){
+            RatedTask ratedTask = new RatedTask();
+            ratedTask.task = task;
+            ratedTask.rating = PPADatabase.getInstance(getContext()).ratingDAO().getAllByUserIdAndTaskId(userId, task.id).rating;
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_rate_tasks, container, false);
+        View rootView =  inflater.inflate(R.layout.fragment_rate_tasks, container, false);
 
-        return view;
+        recyclerView = rootView.findViewById(R.id.task_rating_recycler_view);
+        recyclerView.setHasFixedSize(true);
+
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        mAdapter = new TaskRaterAdapter(ratedTasks);
+        recyclerView.setAdapter(mAdapter);
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

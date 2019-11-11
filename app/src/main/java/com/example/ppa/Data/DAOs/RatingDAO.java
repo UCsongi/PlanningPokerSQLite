@@ -21,7 +21,7 @@ public interface RatingDAO {
     List<Rating> getAllByUserId(int userId);
 
     @Query("SELECT * FROM rating INNER JOIN user ON rating.user_id = user.id INNER JOIN task ON rating.task_id = task.id WHERE user.id = :userId AND task.id = :taskId")
-    List<Rating> getAllByUserId(int userId, int taskId);
+    Rating getAllByUserIdAndTaskId(int userId, int taskId);
 
     @Insert
     void insertAll(Rating... ratings);
