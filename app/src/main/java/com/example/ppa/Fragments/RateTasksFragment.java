@@ -59,6 +59,7 @@ public class RateTasksFragment extends Fragment {
             RatedTask ratedTask = new RatedTask();
             ratedTask.task = task;
             ratedTask.rating = PPADatabase.getInstance(getContext()).ratingDAO().getAllByUserIdAndTaskId(userId, task.id).rating;
+            ratedTasks.add(ratedTask);
         }
     }
 
