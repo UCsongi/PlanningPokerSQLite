@@ -1,12 +1,12 @@
-package com.example.ppa;
+package com.example.ppa.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.ppa.Data.Entities.Task;
 import com.example.ppa.Models.RatedTask;
+import com.example.ppa.R;
 
 import java.util.List;
 
@@ -20,9 +20,9 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.MyViewHo
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView task, rating;
+        TextView task, rating;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             task = view.findViewById(R.id.task);
             rating = view.findViewById(R.id.rating);

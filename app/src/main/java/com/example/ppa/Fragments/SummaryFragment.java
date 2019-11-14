@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.example.ppa.Data.DAOs.RatingDAO;
 import com.example.ppa.Data.Entities.Rating;
@@ -12,7 +11,7 @@ import com.example.ppa.Data.Entities.Task;
 import com.example.ppa.Data.PPADatabase;
 import com.example.ppa.Models.RatedTask;
 import com.example.ppa.R;
-import com.example.ppa.SummaryAdapter;
+import com.example.ppa.Adapters.SummaryAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,7 @@ public class SummaryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_rate_tasks, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+        recyclerView = view.findViewById(R.id.my_recycler_view);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
