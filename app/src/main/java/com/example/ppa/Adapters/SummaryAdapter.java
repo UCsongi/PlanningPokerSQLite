@@ -1,5 +1,6 @@
 package com.example.ppa.Adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,6 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.MyViewHo
 
     private List<RatedTask> mDataset;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView task, rating;
 
@@ -29,27 +27,27 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.MyViewHo
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
     public SummaryAdapter(List<RatedTask> values) {
         mDataset = values;
+        for (RatedTask ratedTask : mDataset){
+            Log.d("summaryAdapter", Integer.toString(ratedTask.rating));
+        }
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_summary, parent, false);
 
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         RatedTask data = mDataset.get(position);
+
         holder.task.setText(data.task.title);
-        holder.rating.setText(data.rating);
+        holder.rating.setText(Integer.toString(data.rating));
     }
 
     @Override

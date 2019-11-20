@@ -29,4 +29,10 @@ public class Rating {
 
     @ColumnInfo(name = "rating")
     public int rating;
+
+    public Rating(int user_id, int task_id, int rating){
+        this.user_id = user_id;
+        this.task_id = task_id;
+        this.rating = rating;
+    }
 }

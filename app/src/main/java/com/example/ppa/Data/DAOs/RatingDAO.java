@@ -8,6 +8,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 @Dao
 public interface RatingDAO {
@@ -21,10 +22,13 @@ public interface RatingDAO {
     List<Rating> getAllByUserId(int userId);
 
     @Query("SELECT * FROM rating INNER JOIN user ON rating.user_id = user.id INNER JOIN task ON rating.task_id = task.id WHERE user.id = :userId AND task.id = :taskId")
-    Rating getAllByUserIdAndTaskId(int userId, int taskId);
+    Rating getByUserIdAndTaskId(int userId, int taskId);
 
     @Insert
     void insertAll(Rating... ratings);
+
+    @Update
+    void updateAll(Rating... ratings);
 
     @Delete
     void delete(Rating rating);

@@ -12,11 +12,12 @@ import com.example.ppa.Models.RatedTask;
 import com.example.ppa.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 public class TaskRaterAdapter extends RecyclerView.Adapter<TaskRaterAdapter.TaskRaterViewHolder> {
-    private ArrayList<RatedTask> mDataset;
+    private List<RatedTask> mDataset;
 
     public static class TaskRaterViewHolder extends RecyclerView.ViewHolder {
         public TextView titleView;
@@ -62,7 +63,7 @@ public class TaskRaterAdapter extends RecyclerView.Adapter<TaskRaterAdapter.Task
         }
     }
 
-    public TaskRaterAdapter(ArrayList<RatedTask> myDataset) {
+    public TaskRaterAdapter(List<RatedTask> myDataset) {
         mDataset = myDataset;
     }
 
@@ -75,11 +76,12 @@ public class TaskRaterAdapter extends RecyclerView.Adapter<TaskRaterAdapter.Task
 
     @Override
     public void onBindViewHolder(TaskRaterViewHolder holder, int position) {
-        //TODO test if it has rating or not
+
+        holder.ratingChangedListener.updatePosition(position);
+
         holder.titleView.setText(mDataset.get(position).task.title);
         holder.descriptionView.setText(mDataset.get(position).task.description);
-        holder.ratingText.setText(mDataset.get(position).rating);
-        holder.ratingChangedListener.updatePosition(position);
+        holder.ratingText.setText(Integer.toString(mDataset.get(position).rating));
     }
 
     @Override

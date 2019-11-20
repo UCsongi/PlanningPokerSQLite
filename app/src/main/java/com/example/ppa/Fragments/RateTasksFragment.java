@@ -11,8 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.ppa.Adapters.TaskRaterAdapter;
+import com.example.ppa.Data.DAOs.RatingDAO;
+import com.example.ppa.Data.DAOs.TaskDAO;
+import com.example.ppa.Data.Entities.Rating;
 import com.example.ppa.Data.Entities.Task;
 import com.example.ppa.Data.PPADatabase;
 import com.example.ppa.Models.RatedTask;
@@ -35,6 +39,9 @@ public class RateTasksFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    private TaskDAO taskDAO;
+    private RatingDAO ratingDAO;
+
     public RateTasksFragment() {
     }
 
@@ -53,12 +60,22 @@ public class RateTasksFragment extends Fragment {
             userId = getArguments().getInt(USER_ID);
         }
 
+        taskDAO = PPADatabase.getInstance(getContext()).taskDAO();
+        ratingDAO = PPADatabase.getInstance(getContext()).ratingDAO();
+
         ratedTasks = new ArrayList();
-        tasks = PPADatabase.getInstance(getContext()).taskDAO().getAll();
+        tasks = taskDAO.getAll();
         for (Task task :tasks){
             RatedTask ratedTask = new RatedTask();
             ratedTask.task = task;
-            ratedTask.rating = PPADatabase.getInstance(getContext()).ratingDAO().getAllByUserIdAndTaskId(userId, task.id).rating;
+
+            Rating rating = ratingDAO.getByUserIdAndTaskId(userId, task.id);
+            if (rating != null){
+                ratedTask.rating = rating.rating;
+            } else {
+                ratedTask.rating = 0;
+            }
+
             ratedTasks.add(ratedTask);
         }
     }
@@ -77,14 +94,25 @@ public class RateTasksFragment extends Fragment {
         mAdapter = new TaskRaterAdapter(ratedTasks);
         recyclerView.setAdapter(mAdapter);
 
-        return rootView;
-    }
+        Button saveButton = rootView.findViewById(R.id.savebutton);
+        saveButton.setOnClickListener(v -> {
+            for (RatedTask ratedTask : ratedTasks)
+            {
+                Rating rating = ratingDAO.getByUserIdAndTaskId(userId, ratedTask.task.id);
+                if (rating == null) {
+                    ratingDAO.insertAll(new Rating(userId, ratedTask.task.id, ratedTask.rating));
+                } else {
+                    rating.rating = ratedTask.rating;
+                    ratingDAO.updateAll(rating);
+                }
+            }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onRate();
-        }
+            if (mListener != null) {
+                mListener.onRate();
+            }
+        });
+
+        return rootView;
     }
 
     @Override
