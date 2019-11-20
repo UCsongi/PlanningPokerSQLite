@@ -27,7 +27,7 @@ public class RateTasksFragment extends Fragment {
     private int userId;
 
     private List<Task> tasks;
-    private List<RatedTask> ratedTasks;
+    private ArrayList<RatedTask> ratedTasks;
 
     private OnRateListener mListener;
 

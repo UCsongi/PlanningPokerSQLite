@@ -38,7 +38,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.MyViewHo
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        TextView v = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_summary, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_summary, parent, false);
 
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
